@@ -48,9 +48,9 @@ class Pep257(PythonLinter, metaclass=Pep257Meta):
     """Provide an interface to the pep257 python script."""
 
     language = 'python'
-    regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<error>.+)'
+    regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
-    line_col_base = (1, 0)
+    line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
 
     def run(self, cmd, code):
         """Run pep257 on the source and return the output."""
