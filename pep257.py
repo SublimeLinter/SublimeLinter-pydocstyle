@@ -57,5 +57,9 @@ class Pep257(PythonLinter, metaclass=Pep257Meta):
         if check_source is None:
             return super().run(cmd, code)
         else:
-            errors = check_source(code, os.path.basename(self.filename))
+            try:
+                errors = check_source(code, os.path.basename(self.filename))
+            except:
+                errors = []
+
             return '\n'.join([str(e) for e in errors])
