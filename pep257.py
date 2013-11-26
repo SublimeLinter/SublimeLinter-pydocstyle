@@ -34,13 +34,15 @@ class Pep257Meta(Registrar):
     """
 
     def __init__(cls, name, bases, attrs):
-        super().__init__(name, bases, attrs)
-
-        # If pep257 could not be imported, use the executable
+        # If pep257 could not be imported, use the executable.
+        # We have to do this before super().__init__ because
+        # that registers the class, and we need this attribute set first.
         if check_source is None:
             setattr(cls, 'cmd', ('pep257@python', '-'))
         else:
             setattr(cls, 'cmd', None)
+
+        super().__init__(name, bases, attrs)
 
 
 class Pep257(PythonLinter, metaclass=Pep257Meta):
