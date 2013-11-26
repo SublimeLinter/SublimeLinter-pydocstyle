@@ -47,7 +47,7 @@ class Pep257Meta(Registrar):
 
 class Pep257(PythonLinter, metaclass=Pep257Meta):
 
-    """Provide an interface to the pep257 python script."""
+    """Provides an interface to the pep257 python script."""
 
     language = 'python'
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
@@ -55,7 +55,7 @@ class Pep257(PythonLinter, metaclass=Pep257Meta):
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
 
     def run(self, cmd, code):
-        """Run pep257 on the source and return the output."""
+        """Run pep257 on code and return the output."""
         if check_source is None:
             return super().run(cmd, code)
         else:
