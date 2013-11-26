@@ -8,7 +8,7 @@
 # License: MIT
 #
 
-"""Exports the Pep257 linter class."""
+"""This module exports the PEP257 plugin linter class."""
 
 import os
 
@@ -21,10 +21,10 @@ except ImportError:
 from SublimeLinter.lint import highlight, PythonLinter, Registrar
 
 
-class Pep257Meta(Registrar):
+class PEP257Meta(Registrar):
 
     """
-    Metaclass for Pep257 that dynamically sets the 'cmd' attribute.
+    Metaclass for PEP257 that dynamically sets the 'cmd' attribute.
 
     If a linter can work both using an executable and built in code,
     the best way to deal with that is to set the cmd class attribute
@@ -45,9 +45,9 @@ class Pep257Meta(Registrar):
         super().__init__(name, bases, attrs)
 
 
-class Pep257(PythonLinter, metaclass=Pep257Meta):
+class PEP257(PythonLinter, metaclass=PEP257Meta):
 
-    """Provides an interface to the pep257 python script."""
+    """Provides an interface to the pep257 python module/script."""
 
     language = 'python'
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
