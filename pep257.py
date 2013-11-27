@@ -12,56 +12,20 @@
 
 import os
 
-# If possible, import pep257 and use it directly for better performance
-try:
-    from pep257 import check_source
-except ImportError:
-    check_source = None
-
-from SublimeLinter.lint import highlight, PythonLinter, Registrar
+from SublimeLinter.lint import highlight, PythonLinter
 
 
-class PEP257Meta(Registrar):
-
-    """
-    Metaclass for PEP257 that dynamically sets the 'cmd' attribute.
-
-    If a linter can work both using an executable and built in code,
-    the best way to deal with that is to set the cmd class attribute
-    during class construction. This allows the linter to take advantage
-    of the rest of the SublimeLinter machinery for everything but run().
-
-    """
-
-    def __init__(cls, name, bases, attrs):
-        # If pep257 could not be imported, use the executable.
-        # We have to do this before super().__init__ because
-        # that registers the class, and we need this attribute set first.
-        if check_source is None:
-            setattr(cls, 'cmd', ('pep257@python', '-'))
-        else:
-            setattr(cls, 'cmd', None)
-
-        super().__init__(name, bases, attrs)
-
-
-class PEP257(PythonLinter, metaclass=PEP257Meta):
+class PEP257(PythonLinter):
 
     """Provides an interface to the pep257 python module/script."""
 
     language = 'python'
+    cmd = ('pep257@python', '-')
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
+    module = 'pep257'
 
-    def run(self, cmd, code):
+    def check(self, code, filename):
         """Run pep257 on code and return the output."""
-        if check_source is None:
-            return super().run(cmd, code)
-        else:
-            try:
-                errors = check_source(code, os.path.basename(self.filename))
-            except:
-                errors = []
-
-            return '\n'.join([str(e) for e in errors])
+        return self.module.check_source(code, os.path.basename(filename))
