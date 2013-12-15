@@ -13,7 +13,7 @@
 
 import os
 
-from SublimeLinter.lint import highlight, PythonLinter
+from SublimeLinter.lint import highlight, PythonLinter, util
 
 
 class PEP257(PythonLinter):
@@ -25,6 +25,7 @@ class PEP257(PythonLinter):
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
+    output_src = util.OUTPUT_STDERR
     module = 'pep257'
 
     def check(self, code, filename):
