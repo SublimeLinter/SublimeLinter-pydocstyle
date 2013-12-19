@@ -20,11 +20,12 @@ class PEP257(PythonLinter):
     """Provides an interface to the pep257 python module/script."""
 
     syntax = 'python'
-    cmd = ('pep257@python', '*', '-')
+    cmd = 'pep257@python'
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
-    line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
     error_stream = util.STREAM_STDERR
+    line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
+    tempfile_suffix = 'py'
     module = 'pep257'
 
     def check(self, code, filename):
