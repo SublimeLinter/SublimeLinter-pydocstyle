@@ -19,7 +19,7 @@ class PEP257(PythonLinter):
 
     """Provides an interface to the pep257 python module/script."""
 
-    syntax = 'python'
+    syntax = ('python', 'python django')
     cmd = 'pep257@python'
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
