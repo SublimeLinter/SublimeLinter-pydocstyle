@@ -21,6 +21,9 @@ class PEP257(PythonLinter):
 
     syntax = ('python', 'python django')
     cmd = 'pep257@python'
+    version_args = '--version'
+    version_re = r'(?P<version>\d+\.\d+\.\d+)'
+    version_requirement = '>= 0.2.4'
     regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
     default_type = highlight.WARNING
     error_stream = util.STREAM_STDERR
