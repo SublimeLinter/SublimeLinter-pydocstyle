@@ -19,7 +19,7 @@ class PEP257(PythonLinter):
 
     """Provides an interface to the pep257 python module/script."""
 
-    syntax = ('python', 'python django')
+    syntax = 'python'
     cmd = 'pep257@python'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
