@@ -49,7 +49,7 @@ If you would like to contribute enhancements or fixes, please do the following:
 Please note that modications should follow these coding guidelines:
 
 - Indent is 4 spaces.
-- Code should pass pep257 and pep257 linters.
+- Code should pass flake8 and pep257 linters.
 - Vertical whitespace helps readability, don’t be afraid to use it.
 
 Thank you for helping out!
