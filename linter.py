@@ -24,7 +24,7 @@ class PEP257(PythonLinter):
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
     version_requirement = '>= 0.3.0'
-    regex = r'^.+?:(?P<line>\d+).*:\n\s*(?P<message>.+)$'
+    regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<message>.+)$'
     multiline = True
     default_type = highlight.WARNING
     error_stream = util.STREAM_STDERR
@@ -32,12 +32,16 @@ class PEP257(PythonLinter):
     tempfile_suffix = 'py'
     module = 'pep257'
 
+    @classmethod
+    def initialize(cls):
+        """Initialize a PEP257Checker() object, to be re-used on every check()."""
+        super().initialize()
+        cls._checker = cls.module.PEP257Checker()
+
     def check(self, code, filename):
         """Run pep257 on code and return the output."""
         errors = []
-        # Cannot use self.module.check(), since that only takes filenames as
-        # input and not source code, so use the actual PEP257Checker class.
-        for error in self.module.PEP257Checker().check_source(code, os.path.basename(filename)):
+        for error in self._checker.check_source(code, os.path.basename(filename)):
             if getattr(error, 'code', None) is not None:
                 errors.append(str(error))
 
