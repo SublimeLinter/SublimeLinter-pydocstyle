@@ -23,14 +23,26 @@ class PEP257(PythonLinter):
     cmd = 'pep257@python'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
-    version_requirement = '>= 0.2.4'
-    regex = r'^.+?:(?P<line>\d+):(?P<col>\d+): (?P<message>.+)'
+    version_requirement = '>= 0.3.0'
+    regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<message>.+)$'
+    multiline = True
     default_type = highlight.WARNING
     error_stream = util.STREAM_STDERR
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     module = 'pep257'
 
+    @classmethod
+    def initialize(cls):
+        """Initialize a PEP257Checker() object, to be re-used on every check()."""
+        super().initialize()
+        cls._checker = cls.module.PEP257Checker()
+
     def check(self, code, filename):
         """Run pep257 on code and return the output."""
-        return self.module.check_source(code, os.path.basename(filename))
+        errors = []
+        for error in self._checker.check_source(code, os.path.basename(filename)):
+            if getattr(error, 'code', None) is not None:
+                errors.append(str(error))
+
+        return '\n'.join(errors)
