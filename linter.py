@@ -31,17 +31,18 @@ class PEP257(PythonLinter):
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     module = 'pep257'
+    check_version = True
 
-    @classmethod
-    def initialize(cls):
-        """Initialize a PEP257Checker() object, to be re-used on every check()."""
-        super().initialize()
-        cls._checker = cls.module.PEP257Checker()
+    # Internal
+    checker = None
 
     def check(self, code, filename):
         """Run pep257 on code and return the output."""
+        if self.checker is None:
+            self.checker = self.module.PEP257Checker()
+
         errors = []
-        for error in self._checker.check_source(code, os.path.basename(filename)):
+        for error in self.checker.check_source(code, os.path.basename(filename)):
             if getattr(error, 'code', None) is not None:
                 errors.append(str(error))
 
