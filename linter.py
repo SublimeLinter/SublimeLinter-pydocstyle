@@ -12,7 +12,7 @@
 
 import os
 
-from SublimeLinter.lint import highlight, PythonLinter, util
+from SublimeLinter.lint import highlight, PythonLinter, util, persist
 
 
 class PEP257(PythonLinter):
@@ -33,6 +33,10 @@ class PEP257(PythonLinter):
     module = 'pep257'
     check_version = True
 
+    defaults = {
+        'ignore:,': '',
+    }
+
     # Internal
     checker = None
 
@@ -41,9 +45,21 @@ class PEP257(PythonLinter):
         if self.checker is None:
             self.checker = self.module.PEP257Checker()
 
+        options = {}
+
+        type_map = {
+            'ignore': [],
+        }
+
+        self.build_options(options, type_map)
+
+        if persist.debug_mode():
+            persist.printf('{} options: {}'.format(self.name, options))
+
         errors = []
         for error in self.checker.check_source(code, os.path.basename(filename)):
-            if getattr(error, 'code', None) is not None:
+            code = getattr(error, 'code', None)
+            if code is not None and code not in options['ignore']:
                 errors.append(str(error))
 
         return '\n'.join(errors)

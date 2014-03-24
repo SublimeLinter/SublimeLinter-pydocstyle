@@ -37,6 +37,8 @@ To install via Package Control, do the following:
 ## Settings
 For general information on how SublimeLinter works with settings, please see [Settings](http://sublimelinter.readthedocs.org/en/latest/settings.html). For information on generic linter settings, please see [Linter Settings](http://sublimelinter.readthedocs.org/en/latest/linter_settings.html).
 
+SublimeLinter-pep257 also supports an `ignore` setting, as a list of comma-separated error codes to ignore.
+
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:
 
