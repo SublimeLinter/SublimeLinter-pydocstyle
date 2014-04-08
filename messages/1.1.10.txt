@@ -1,0 +1,6 @@
+SublimeLinter-pep257 1.1.10
+----------------------------
+
+The linter now supports an "ignore" setting, which is a list
+of error codes to ignore. This setting may be used as an
+inline override.

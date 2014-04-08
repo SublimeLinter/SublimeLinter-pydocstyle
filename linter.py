@@ -12,7 +12,7 @@
 
 import os
 
-from SublimeLinter.lint import highlight, PythonLinter, util
+from SublimeLinter.lint import highlight, PythonLinter, persist, util
 
 
 class PEP257(PythonLinter):
@@ -30,6 +30,10 @@ class PEP257(PythonLinter):
     error_stream = util.STREAM_STDERR
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
+    defaults = {
+        '--ignore=,': ''
+    }
+    inline_overrides = ('ignore',)
     module = 'pep257'
     check_version = True
 
@@ -38,12 +42,29 @@ class PEP257(PythonLinter):
 
     def check(self, code, filename):
         """Run pep257 on code and return the output."""
+
         if self.checker is None:
             self.checker = self.module.PEP257Checker()
 
+        options = {
+            'ignore': []
+        }
+        type_map = {
+            'ignore': []
+        }
+
+        self.build_options(options, type_map)
+
+        if persist.debug_mode():
+            persist.printf('{} options: {}'.format(self.name, options))
+
+        ignore = options['ignore']
         errors = []
+
         for error in self.checker.check_source(code, os.path.basename(filename)):
-            if getattr(error, 'code', None) is not None:
+            code = getattr(error, 'code', None)
+
+            if code is not None and code not in ignore:
                 errors.append(str(error))
 
         return '\n'.join(errors)

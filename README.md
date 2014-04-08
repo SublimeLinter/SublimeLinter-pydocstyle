@@ -18,7 +18,7 @@ Before installing this plugin, you must ensure that `pep257` is installed on you
    [sudo] pip install pep257
    ```
 
-**Note:** This plugin requires `pep257` 0.2.4 or later.
+**Note:** This plugin requires `pep257` 0.3.0 or later.
 
 ### Linter configuration
 In order for `pep257` to be executed by SublimeLinter, you must ensure that its path is available to SublimeLinter. Before going any further, please read and follow the steps in [“Finding a linter executable”](http://sublimelinter.readthedocs.org/en/latest/troubleshooting.html#finding-a-linter-executable) through “Validating your PATH” in the documentation.
@@ -36,6 +36,12 @@ To install via Package Control, do the following:
 
 ## Settings
 For general information on how SublimeLinter works with settings, please see [Settings](http://sublimelinter.readthedocs.org/en/latest/settings.html). For information on generic linter settings, please see [Linter Settings](http://sublimelinter.readthedocs.org/en/latest/linter_settings.html).
+
+In addition to the standard SublimeLinter settings, SublimeLinter-pep257 provides its own setting which may also be used as an [inline override](http://www.sublimelinter.com/en/latest/settings.html#inline-overrides).
+
+|Setting|Description|
+|:------|:----------|
+|ignore|A comma-separated list of error codes to ignore|
 
 ## Contributing
 If you would like to contribute enhancements or fixes, please do the following:
