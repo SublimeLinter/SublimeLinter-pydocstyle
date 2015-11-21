@@ -1,0 +1,14 @@
+SublimeLinter-pep257
+-------------------------------
+
+"add-ignore" config option has been added to SublimeLinter-pep257.
+This addition was because of changes to "ignore" functionality. Both
+options can now be found in the SublimeLinter User settings. Some
+may find that their "ignore" setting is now broken. If that is the case,
+you may want to use the "add-ignore" config setting instead. Below
+you will find a brief description of each setting to help you understand
+
+"ignore": overrides the default list of disabled errors
+"add-ignore": appends list on top of default list of disabled errors
+
+As always thank you for using SublimeLinter!

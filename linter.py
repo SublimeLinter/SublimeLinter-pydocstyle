@@ -16,7 +16,6 @@ from SublimeLinter.lint import highlight, PythonLinter, persist, util
 
 
 class PEP257(PythonLinter):
-
     """Provides an interface to the pep257 python module/script."""
 
     syntax = 'python'
@@ -31,9 +30,10 @@ class PEP257(PythonLinter):
     line_col_base = (1, 0)  # pep257 uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     defaults = {
-        '--ignore=,': ''
+        '--add-ignore=': '',
+        '--ignore=': ''
     }
-    inline_overrides = ('ignore',)
+    inline_overrides = ('ignore','add-ignore')
     module = 'pep257'
     check_version = True
 
@@ -47,10 +47,12 @@ class PEP257(PythonLinter):
             self.checker = self.module.PEP257Checker()
 
         options = {
-            'ignore': []
+            'ignore': [],
+            'add-ignore': []
         }
         type_map = {
-            'ignore': []
+            'ignore': [],
+            'add-ignore': []
         }
 
         self.build_options(options, type_map)
@@ -59,12 +61,13 @@ class PEP257(PythonLinter):
             persist.printf('{} options: {}'.format(self.name, options))
 
         ignore = options['ignore']
+        add_ignore = options['add-ignore']
         errors = []
 
         for error in self.checker.check_source(code, os.path.basename(filename)):
             code = getattr(error, 'code', None)
 
-            if code is not None and code not in ignore:
+            if code is not None and code not in ignore and code not in add_ignore:
                 errors.append(str(error))
 
         return '\n'.join(errors)
