@@ -33,7 +33,7 @@ class PEP257(PythonLinter):
         '--add-ignore=': '',
         '--ignore=': ''
     }
-    inline_overrides = ('ignore','add-ignore')
+    inline_overrides = ('ignore', 'add-ignore')
     module = 'pep257'
     check_version = True
 
