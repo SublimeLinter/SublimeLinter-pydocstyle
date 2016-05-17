@@ -1,7 +1,7 @@
 {
     "@python": 3,
     "linters": {
-        "pep257": {
+        "pydocstyle": {
             "add-ignore": ["D202"]
         },
         "pep8": {

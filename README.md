@@ -41,7 +41,6 @@ In addition to the standard SublimeLinter settings, SublimeLinter-pep257 provide
 
 |Setting|Description|
 |:------|:----------|
-|ignore|A comma-separated list of error codes to ignore|
 |add-ignore|A comma-separated list of error codes to add the the default ignore list|
 
 ## Contributing
