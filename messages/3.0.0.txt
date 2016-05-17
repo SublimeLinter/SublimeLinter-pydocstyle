@@ -1,0 +1,6 @@
+SublimeLinter-pydocstyle
+----------------------------------------
+
+SublimeLinter-PEP257 has been renamed to SublimeLinter-pydocstyle to match the executable now managed by PyQCA
+
+https://github.com/SublimeLinter/SublimeLinter-pydocstyle
