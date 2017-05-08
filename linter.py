@@ -32,9 +32,13 @@ class Pydocstyle(PythonLinter):
     tempfile_suffix = 'py'
     module = 'pydocstyle'
     defaults = {
-        '--add-ignore=': ''
+        '--add-ignore=': '',
+        '--add-select=': ''
     }
-    inline_overrides = ('add-ignore')
+    inline_overrides = [
+        'add-ignore',
+        'add-select'
+    ]
 
     def check(self, code, filename):
         """Run pydocstyle on code and return the output."""
