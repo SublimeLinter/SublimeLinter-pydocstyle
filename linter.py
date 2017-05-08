@@ -55,7 +55,7 @@ class Pydocstyle(PythonLinter):
                 conf.get_files_to_check():
             errors.extend(
                 self.module.check(
-                    (fname,),
+                    [fname],
                     select=checked_codes,
                     ignore_decorators=ignore_decorators))
 
