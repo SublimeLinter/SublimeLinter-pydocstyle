@@ -28,7 +28,7 @@ class Pydocstyle(PythonLinter):
     multiline = True
     default_type = highlight.WARNING
     error_stream = util.STREAM_STDERR
-    line_col_base = (0, 0)  # pydocstyle uses one-based line and zero-based column numbers
+    line_col_base = (1, 0)  # pydocstyle uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     module = 'pydocstyle'
     defaults = {
