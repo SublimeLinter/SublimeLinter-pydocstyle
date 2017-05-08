@@ -33,11 +33,21 @@ class Pydocstyle(PythonLinter):
     module = 'pydocstyle'
     defaults = {
         '--add-ignore=': '',
-        '--add-select=': ''
+        '--add-select=': '',
+        '--ignore=': '',
+        '--select=': '',
+        '--config=': '',
+        '--convention=': '',
+        '--ignore-decorators=': ''
     }
     inline_overrides = [
         'add-ignore',
-        'add-select'
+        'add-select',
+        'ignore',
+        'select',
+        'config',
+        'convention',
+        'ignore-decorators'
     ]
 
     def check(self, code, filename):
