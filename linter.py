@@ -20,10 +20,7 @@ class Pydocstyle(PythonLinter):
     """Provides an interface to the pydocstyle python module/script."""
 
     syntax = 'python'
-    if PythonLinter.which('pydocstyle'):
-        cmd = 'pydocstyle@python'
-    else:
-        cmd = 'pep257@python'
+    cmd = 'pydocstyle@python'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
     version_requirement = '>= 0.3.0'
