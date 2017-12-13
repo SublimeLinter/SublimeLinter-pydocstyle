@@ -24,7 +24,7 @@ class Pydocstyle(PythonLinter):
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
     version_requirement = '>= 0.3.0'
-    regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<message>.+)$'
+    regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<warning>D\d{3}):\s(?P<message>.+)$'
     multiline = True
     default_type = highlight.WARNING
     error_stream = util.STREAM_BOTH
