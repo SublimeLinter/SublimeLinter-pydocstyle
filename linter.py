@@ -27,7 +27,7 @@ class Pydocstyle(PythonLinter):
     regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<message>.+)$'
     multiline = True
     default_type = highlight.WARNING
-    error_stream = util.STREAM_STDERR
+    error_stream = util.STREAM_BOTH
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     module = 'pydocstyle'
