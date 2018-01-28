@@ -11,16 +11,14 @@
 
 """This module exports the Pydocstyle plugin linter class."""
 
-from contextlib import contextmanager
-from functools import partial
-from SublimeLinter.lint import PythonLinter, highlight, persist, util
+from SublimeLinter.lint import PythonLinter
 
 
 class Pydocstyle(PythonLinter):
     """Provides an interface to the pydocstyle python module/script."""
 
     syntax = 'python'
-    cmd = 'pydocstyle@python'
+    cmd = 'pydocstyle'
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
     version_requirement = '>= 0.3.0'
@@ -30,7 +28,6 @@ class Pydocstyle(PythonLinter):
     error_stream = util.STREAM_BOTH
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
-    module = 'pydocstyle'
     defaults = {
         '--add-ignore=': '',
         '--add-select=': '',
@@ -49,37 +46,3 @@ class Pydocstyle(PythonLinter):
         'convention',
         'ignore-decorators'
     ]
-
-    def check(self, code, filename):
-        """Run pydocstyle on code and return the output."""
-        args = self.build_args(self.get_view_settings(inline=True))
-
-        if persist.settings.get('debug'):
-            persist.printf('{} args: {}'.format(self.name, args))
-
-        conf = self.module.config.ConfigurationParser()
-        with partialpatched(conf,
-                            '_parse_args',
-                            args=args + [filename],
-                            values=None):
-            conf.parse()
-
-        errors = []
-        for fname, checked_codes, ignore_decorators in \
-                conf.get_files_to_check():
-            errors.extend(
-                self.module.check(
-                    [fname],
-                    select=checked_codes,
-                    ignore_decorators=ignore_decorators))
-
-        return errors
-
-
-@contextmanager
-def partialpatched(obj, name, **kwargs):
-    """Monkey patch instance method with partial application."""
-    pre_patched_value = getattr(obj, name)
-    setattr(obj, name, partial(pre_patched_value, **kwargs))
-    yield
-    setattr(obj, name, pre_patched_value)
