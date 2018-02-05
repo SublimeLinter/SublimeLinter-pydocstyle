@@ -13,7 +13,16 @@
 
 from contextlib import contextmanager
 from functools import partial
-from SublimeLinter.lint import PythonLinter, highlight, persist, util
+from SublimeLinter.lint import PythonLinter, persist, util
+
+
+import SublimeLinter
+if getattr(SublimeLinter.lint, 'VERSION', 3) > 3:
+    from SublimeLinter.lint import const
+    WARNING = const.WARNING
+else:
+    from SublimeLinter.lint import highlight
+    WARNING = highlight.WARNING
 
 
 class Pydocstyle(PythonLinter):
@@ -26,7 +35,7 @@ class Pydocstyle(PythonLinter):
     version_requirement = '>= 0.3.0'
     regex = r'^.+?:(?P<line>\d+).*:\r?\n\s*(?P<warning>D\d{3}):\s(?P<message>.+)$'
     multiline = True
-    default_type = highlight.WARNING
+    default_type = WARNING
     error_stream = util.STREAM_BOTH
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
