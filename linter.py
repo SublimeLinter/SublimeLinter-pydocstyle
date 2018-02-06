@@ -13,23 +13,26 @@
 
 from contextlib import contextmanager
 from functools import partial
+import SublimeLinter.lint
 from SublimeLinter.lint import PythonLinter, persist, util
 
-
-import SublimeLinter.lint
 if getattr(SublimeLinter.lint, 'VERSION', 3) > 3:
     from SublimeLinter.lint import const
     WARNING = const.WARNING
+    cmd = 'pydocstyle'
+    module = None
 else:
     from SublimeLinter.lint import highlight
     WARNING = highlight.WARNING
+    cmd = 'pydocstyle@python'
+    module = 'pydocstyle'
 
 
 class Pydocstyle(PythonLinter):
     """Provides an interface to the pydocstyle python module/script."""
 
     syntax = 'python'
-    cmd = 'pydocstyle@python'
+    cmd = cmd
     version_args = '--version'
     version_re = r'(?P<version>\d+\.\d+\.\d+)'
     version_requirement = '>= 0.3.0'
@@ -39,7 +42,7 @@ class Pydocstyle(PythonLinter):
     error_stream = util.STREAM_BOTH
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
-    module = 'pydocstyle'
+    module = module
     defaults = {
         '--add-ignore=': '',
         '--add-select=': '',
@@ -59,30 +62,31 @@ class Pydocstyle(PythonLinter):
         'ignore-decorators'
     ]
 
-    def check(self, code, filename):
-        """Run pydocstyle on code and return the output."""
-        args = self.build_args(self.get_view_settings(inline=True))
+    if getattr(SublimeLinter.lint, 'VERSION', 3) < 4:
+        def check(self, code, filename):
+            """Run pydocstyle on code and return the output."""
+            args = self.build_args(self.get_view_settings(inline=True))
 
-        if persist.settings.get('debug'):
-            persist.printf('{} args: {}'.format(self.name, args))
+            if persist.settings.get('debug'):
+                persist.printf('{} args: {}'.format(self.name, args))
 
-        conf = self.module.config.ConfigurationParser()
-        with partialpatched(conf,
-                            '_parse_args',
-                            args=args + [filename],
-                            values=None):
-            conf.parse()
+            conf = self.module.config.ConfigurationParser()
+            with partialpatched(conf,
+                                '_parse_args',
+                                args=args + [filename],
+                                values=None):
+                conf.parse()
 
-        errors = []
-        for fname, checked_codes, ignore_decorators in \
-                conf.get_files_to_check():
-            errors.extend(
-                self.module.check(
-                    [fname],
-                    select=checked_codes,
-                    ignore_decorators=ignore_decorators))
+            errors = []
+            for fname, checked_codes, ignore_decorators in \
+                    conf.get_files_to_check():
+                errors.extend(
+                    self.module.check(
+                        [fname],
+                        select=checked_codes,
+                        ignore_decorators=ignore_decorators))
 
-        return errors
+            return errors
 
 
 @contextmanager
