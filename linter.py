@@ -16,7 +16,7 @@ from functools import partial
 from SublimeLinter.lint import PythonLinter, persist, util
 
 
-import SublimeLinter
+import SublimeLinter.lint
 if getattr(SublimeLinter.lint, 'VERSION', 3) > 3:
     from SublimeLinter.lint import const
     WARNING = const.WARNING
