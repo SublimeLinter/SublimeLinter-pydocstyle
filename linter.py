@@ -10,5 +10,12 @@ class Pydocstyle(PythonLinter):
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     defaults = {
-        'selector': 'source.python'
+        'selector': 'source.python',
+        '--add-ignore=': '',
+        '--add-select=': '',
+        '--ignore=': '',
+        '--select=': '',
+        '--config=': '',
+        '--convention=': '',
+        '--ignore-decorators=': ''
     }
