@@ -1,4 +1,5 @@
 from SublimeLinter.lint import PythonLinter, util, const
+from SublimeLinter.lint.linter import TransientError
 
 
 class Pydocstyle(PythonLinter):
@@ -22,6 +23,15 @@ class Pydocstyle(PythonLinter):
         '--convention=': '',
         '--ignore-decorators=': ''
     }
+
+    def on_stderr(self, stderr):
+        # For a doc style tester, parse errors can be treated 'transient',
+        # for the benefit, that we do not re-draw, but keep the errors from
+        # the last run.
+        if 'Cannot parse file' in stderr:
+            raise TransientError('Parse error.')
+
+        return super().on_stderr(stderr)
 
     def split_match(self, match):
         match = super().split_match(match)
