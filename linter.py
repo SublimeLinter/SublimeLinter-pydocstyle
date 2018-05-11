@@ -1,4 +1,4 @@
-from SublimeLinter.lint import PythonLinter, util, const
+from SublimeLinter.lint import PythonLinter
 from SublimeLinter.lint.linter import TransientError
 
 
@@ -9,8 +9,6 @@ class Pydocstyle(PythonLinter):
         \s*(?P<warning>D\d{3}):\s(?P<message>.+)
     '''
     multiline = True
-    default_type = const.WARNING
-    error_stream = util.STREAM_BOTH
     line_col_base = (1, 0)  # uses one-based line and zero-based column numbers
     tempfile_suffix = 'py'
     defaults = {
