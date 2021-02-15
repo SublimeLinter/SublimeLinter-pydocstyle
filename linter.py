@@ -3,7 +3,7 @@ from SublimeLinter.lint.linter import TransientError
 
 
 class Pydocstyle(PythonLinter):
-    cmd = 'pydocstyle'
+    cmd = 'pydocstyle ${temp_file}'
     regex = r'''(?x)
         ^(?P<filename>.+):(?P<line>\d+)[^`\n]*(`(?P<near>.+)`)?.*:\n
         \s*(?P<warning>D\d{3}):\s(?P<message>.+)
