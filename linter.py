@@ -1,6 +1,7 @@
 from contextlib import contextmanager
 import os
 import tempfile
+import time
 
 from SublimeLinter.lint import PythonLinter
 from SublimeLinter.lint.linter import TransientError
@@ -52,7 +53,31 @@ class Pydocstyle(PythonLinter):
             try:
                 yield temp_filename
             finally:
-                os.remove(temp_filename)
+                self._retry(
+                    3,
+                    "removing '{}'".format(temp_filename),
+                    lambda: os.unlink(temp_filename)
+                )
+
+    def _retry(self, times, tag, fn):
+        for i in range(times):
+            try:
+                fn()
+            except Exception:
+                if i < times - 1:
+                    self.logger.info(
+                        "{} failed: "
+                        "will retry after sleeping for {} second(s)"
+                        .format(tag, 2**i)
+                    )
+                    time.sleep(2**i)
+                else:
+                    self.logger.warning("{} failed".format(tag))
+                    raise
+            else:
+                if i > 0:
+                    self.logger.info("{} succeeded after {} retry".format(tag, i))
+                break
 
     @property
     def plugin_name(self):
