@@ -1,7 +1,6 @@
 SublimeLinter-pydocstyle
 =========================
 
-[![Build Status](https://travis-ci.org/SublimeLinter/SublimeLinter-pydocstyle.svg?branch=master)](https://travis-ci.org/SublimeLinter/SublimeLinter-pydocstyle)
 
 This linter plugin for [SublimeLinter](https://github.com/SublimeLinter/SublimeLinter) provides an interface to [pydocstyle](https://github.com/PyCQA/pydocstyle).
 It will be used with files that have the "Python" syntax.
