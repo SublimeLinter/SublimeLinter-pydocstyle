@@ -76,7 +76,10 @@ class Pydocstyle(PythonLinter):
                     raise
             else:
                 if i > 0:
-                    self.logger.info("{} succeeded after {} retry".format(tag, i))
+                    self.logger.info(
+                        "{} succeeded after {} retr{ies}"
+                        .format(tag, i, ies="y" if i == 1 else "ies")
+                    )
                 break
 
     @property
