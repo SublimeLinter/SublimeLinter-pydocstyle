@@ -38,8 +38,7 @@ class Pydocstyle(PythonLinter):
         with self._make_temp_file(filename, code) as temp_filename:
             self.context['file_on_disk'] = self.filename
             self.context['temp_file'] = temp_filename
-            cmd = self.finalize_cmd(
-                cmd, self.context, at_value=temp_filename, auto_append=True)
+            cmd = self.finalize_cmd(cmd, self.context)
             return self._communicate(cmd)
 
     @contextmanager
